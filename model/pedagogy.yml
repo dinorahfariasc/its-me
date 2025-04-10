@@ -1,24 +1,25 @@
-tipos_de_feedback:
+feedback_types:
 
-  - nome: "autonomia"
-    descricao: "Incentiva os alunos a assumirem o controle da própria aprendizagem, explorando os temas de forma independente ou definindo seus próprios objetivos."
-    mensagem: "Você está avançando bem em {item}. Considere explorar mais esse tema por conta própria para aprofundar seu entendimento."
+  - name: "muito_bem"
+    description: "Elogia o aluno por ter ido muito bem em um tópico."
+    message: "Muito bem em {item}! Continue assim."
 
-  - nome: "competencia"
-    descricao: "Afirma a capacidade do aluno de dominar o conteúdo, destacando o progresso e os pontos fortes."
-    mensagem: "Você está demonstrando grande competência em {item}! Continue com o ótimo trabalho."
+  - name: "indo_bem"
+    description: "Reconhece que o aluno está indo bem, mas pode melhorar com mais prática."
+    message: "Você está indo bem em {item}, mas ainda dá pra melhorar um pouco mais."
 
-  - nome: "relacionamento"
-    descricao: "Faz o aluno se sentir acolhido e apoiado, normalizando dificuldades e sugerindo colaboração."
-    mensagem: "Muitos estudantes acham {item} desafiador. Você não está sozinho — vamos enfrentar isso juntos."
+  - name: "precisa_melhorar"
+    description: "Mostra que o aluno teve dificuldades e precisa reforçar o conteúdo."
+    message: "Você teve dificuldades em {item}. Que tal revisar esse conteúdo com calma?"
 
-  - nome: "urgente"
-    descricao: "Indica a necessidade de atenção imediata a conceitos fundamentais devido a dificuldades em questões fáceis."
-    mensagem: "Atenção: Você teve dificuldade em questões fáceis sobre {item}. Vamos revisar os conceitos básicos para construir uma base mais sólida."
+  - name: "atenção"
+    description: "Alerta o aluno sobre erros em questões básicas."
+    message: "Atenção: você errou questões mais fáceis em {item}. Vamos reforçar esse ponto!"
 
-  - nome: "revisao"
-    descricao: "Sugere revisar o conteúdo para fortalecer o entendimento, especialmente de conceitos mais desafiadores."
-    mensagem: "Considere revisar {item}, especialmente os conceitos mais difíceis, para melhorar seu domínio do conteúdo."
+  - name: "desafio"
+    description: "Sugere focar nas questões mais difíceis onde o aluno teve baixo desempenho."
+    message: "As questões mais difíceis de {item} ainda estão complicadas. Tente focar nelas aos poucos."
+
 
 feedback_rules:
 
