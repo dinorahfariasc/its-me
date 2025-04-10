@@ -1,116 +1,51 @@
-tipos_de_feedback:
+feedback_rules:
 
-  - nome: "autonomia"
-    descricao: "Incentiva os alunos a assumirem o controle da própria aprendizagem, explorando os temas de forma independente ou definindo seus próprios objetivos."
-    mensagem: "Você está avançando bem em {item}. Considere explorar mais esse tema por conta própria para aprofundar seu entendimento."
+  - name: "Alto desempenho no tópico"
+    condition:
+      type: "greater_than"
+      left: "performance.topics[topic].percent_correct"
+      right: 80.0
+    action:
+      feedback_competence[topic]: 1
+    description: "Envia mensagem de competência quando o desempenho em um tópico está acima de 80%."
 
-  - nome: "competencia"
-    descricao: "Afirma a capacidade do aluno de dominar o conteúdo, destacando o progresso e os pontos fortes."
-    mensagem: "Você está demonstrando grande competência em {item}! Continue com o ótimo trabalho."
+  - name: "Desempenho médio no tópico"
+    condition:
+      type: "and"
+      conditions:
+        - type: "greater_than_or_equal"
+          left: "performance.topics[topic].percent_correct"
+          right: 50.0
+        - type: "less_than_or_equal"
+          left: "performance.topics[topic].percent_correct"
+          right: 80.0
+    action:
+      feedback_autonomy[topic]: 1
+    description: "Envia mensagem de autonomia quando o desempenho está entre 50% e 80%."
 
-  - nome: "relacionamento"
-    descricao: "Faz o aluno se sentir acolhido e apoiado, normalizando dificuldades e sugerindo colaboração."
-    mensagem: "Muitos estudantes acham {item} desafiador. Você não está sozinho — vamos enfrentar isso juntos."
+  - name: "Baixo desempenho no tópico"
+    condition:
+      type: "less_than"
+      left: "performance.topics[topic].percent_correct"
+      right: 50.0
+    action:
+      feedback_relatedness[topic]: 1
+    description: "Envia mensagem de apoio quando o desempenho está abaixo de 50%."
 
-  - nome: "urgente"
-    descricao: "Indica a necessidade de atenção imediata a conceitos fundamentais devido a dificuldades em questões fáceis."
-    mensagem: "Atenção: Você teve dificuldade em questões fáceis sobre {item}. Vamos revisar os conceitos básicos para construir uma base mais sólida."
+  - name: "Erro em questões fáceis"
+    condition:
+      type: "less_than"
+      left: "performance.topics[topic].percent_correct_easy_questions"
+      right: 60.0
+    action:
+      feedback_urgent[topic]: 1
+    description: "Sinaliza problema urgente se o aluno erra a maioria das questões fáceis."
 
-  - nome: "revisao"
-    descricao: "Sugere revisar o conteúdo para fortalecer o entendimento, especialmente de conceitos mais desafiadores."
-    mensagem: "Considere revisar {item}, especialmente os conceitos mais difíceis, para melhorar seu domínio do conteúdo."
-
-
-regras_de_feedback:
-
-  - nome: "Relacionamento para baixo desempenho em tópico"
-    condicao:
-      tipo: "menor_que"
-      esquerda: "performance.topics[topic].percent_correct"
-      direita: 50.0
-    acao:
-      feedback_relacionamento[topic]: 1
-    descricao: "Ativa o feedback de relacionamento se o desempenho no tópico for inferior a 50%"
-
-  - nome: "Competência para alto desempenho em tópico"
-    condicao:
-      tipo: "maior_que"
-      esquerda: "performance.topics[topic].percent_correct"
-      direita: 80.0
-    acao:
-      feedback_competencia[topic]: 1
-    descricao: "Ativa o feedback de competência se o desempenho no tópico ultrapassar 80%"
-
-  - nome: "Autonomia para desempenho moderado em tópico"
-    condicao:
-      tipo: "e"
-      condicoes:
-        - tipo: "maior_ou_igual"
-          esquerda: "performance.topics[topic].percent_correct"
-          direita: 50.0
-        - tipo: "menor_ou_igual"
-          esquerda: "performance.topics[topic].percent_correct"
-          direita: 80.0
-    acao:
-      feedback_autonomia[topic]: 1
-    descricao: "Ativa o feedback de autonomia se o desempenho no tópico estiver entre 50% e 80%"
-
-  - nome: "Relacionamento para baixo desempenho em área"
-    condicao:
-      tipo: "menor_que"
-      esquerda: "performance.areas[area].percent_correct"
-      direita: 50.0
-    acao:
-      feedback_relacionamento[area]: 1
-    descricao: "Ativa o feedback de relacionamento se o desempenho na área for inferior a 50%"
-
-  - nome: "Competência para alto desempenho em área"
-    condicao:
-      tipo: "maior_que"
-      esquerda: "performance.areas[area].percent_correct"
-      direita: 80.0
-    acao:
-      feedback_competencia[area]: 1
-    descricao: "Ativa o feedback de competência se o desempenho na área ultrapassar 80%"
-
-  - nome: "Autonomia para desempenho moderado em área"
-    condicao:
-      tipo: "e"
-      condicoes:
-        - tipo: "maior_ou_igual"
-          esquerda: "performance.areas[area].percent_correct"
-          direita: 50.0
-        - tipo: "menor_ou_igual"
-          esquerda: "performance.areas[area].percent_correct"
-          direita: 80.0
-    acao:
-      feedback_autonomia[area]: 1
-    descricao: "Ativa o feedback de autonomia se o desempenho na área estiver entre 50% e 80%"
-
-  - nome: "Foco urgente devido a erros em questões fáceis"
-    condicao:
-      tipo: "e"
-      condicoes:
-        - tipo: "maior_que"
-          esquerda: "performance.topics[topic].difficulty_breakdown.easy"
-          direita: 0
-        - tipo: "menor_que"
-          esquerda: "performance.topics[topic].percent_correct"
-          direita: 50.0
-    acao:
-      feedback_urgente[topic]: 1
-    descricao: "Ativa o feedback urgente se houver questões fáceis e o desempenho no tópico for inferior a 50%"
-
-  - nome: "Revisão necessária por fraqueza em questões difíceis"
-    condicao:
-      tipo: "e"
-      condicoes:
-        - tipo: "maior_que"
-          esquerda: "performance.topics[topic].difficulty_breakdown.hard"
-          direita: 0
-        - tipo: "menor_que"
-          esquerda: "performance.topics[topic].percent_correct"
-          direita: 70.0
-    acao:
-      feedback_revisao[topic]: 1
-    descricao: "Ativa o feedback de revisão se houver questões difíceis e o desempenho no tópico for inferior a 70%"
+  - name: "Dificuldade com questões difíceis"
+    condition:
+      type: "less_than"
+      left: "performance.topics[topic].percent_correct_hard_questions"
+      right: 40.0
+    action:
+      feedback_review[topic]: 1
+    description: "Sugere revisão se há baixo desempenho em questões difíceis."
